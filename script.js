@@ -94,31 +94,37 @@ var questions = {
   characters: "How many characters should your password have?",
 
   lowercase: "Would you like your password to have lowercase characters?",
-  lowercaseYes: "How many lowercase characters should it have?",
+  // lowercaseAmount: "How many lowercase characters should it have?",
 
   uppercase: "Would you like your password to have uppercase characters?",
-  uppercaseYes: "How many uppercase characters should it have?",
+  // uppercaseAmount: "How many uppercase characters should it have?",
 
   numeric: "Would you like your password to have numeric characters?",
-  numericYes: "How many lowercase characters should it have?",
+  // numericAmount: "How many lowercase characters should it have?",
 
   special: "Would you like your password to have special characters?",
-  specialYes: "How many special characters should it have?"
+  // specialAmount: "How many special characters should it have?"
 }
 
 // Function to prompt user for password options
 function getPasswordOptions() {
   var charactersAnswer = prompt(questions.characters);
   if (charactersAnswer >= 1 && charactersAnswer < 128) {
-    var lowercaseAnswer = prompt(questions.lowercase);
+    var lowercaseAnswer = confirm(questions.lowercase);
   } else {
     alert("Please, select a number between 1 and 128");
+    getPasswordOptions();
   }
+  var uppercaseAnswer = confirm(questions.uppercase);
+  var numericAnswer = confirm(questions.numeric);
+  var specialAnswer = confirm(questions.special);
 }
+
+getPasswordOptions();
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-  arr.forEach()
+
 }
 
 // Function to generate password with user input
@@ -141,4 +147,3 @@ function writePassword() {
 generateBtn.addEventListener('click', writePassword);
 
 
-getPasswordOptions();
