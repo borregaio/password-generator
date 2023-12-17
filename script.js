@@ -92,40 +92,61 @@ var upperCasedCharacters = [
 
 var questions = {
   characters: "How many characters should your password have?",
-
   lowercase: "Would you like your password to have lowercase characters?",
-  // lowercaseAmount: "How many lowercase characters should it have?",
-
   uppercase: "Would you like your password to have uppercase characters?",
-  // uppercaseAmount: "How many uppercase characters should it have?",
-
   numeric: "Would you like your password to have numeric characters?",
-  // numericAmount: "How many lowercase characters should it have?",
-
-  special: "Would you like your password to have special characters?",
-  // specialAmount: "How many special characters should it have?"
+  special: "Would you like your password to have special characters?"
 }
+
+// User answers to password questions
+
+var charactersInput;
+var lowercaseInput;
+var uppercaseInput;
+var numericInput;
+var specialInput;
+
+// New arrays generated from user input
+
+var userLowercaseArray = []
+var userUppercaseArray = []
+var userNumericArray = []
+var userSpecialArray = []
 
 // Function to prompt user for password options
 function getPasswordOptions() {
-  var charactersAnswer = prompt(questions.characters);
-  if (charactersAnswer >= 1 && charactersAnswer < 128) {
-    var lowercaseAnswer = confirm(questions.lowercase);
+  charactersInput = prompt(questions.characters);
+  if (charactersInput >= 8 && charactersInput < 128) {
+    lowercaseInput = confirm(questions.lowercase);
+  } else if (!charactersInput) {
+    alert("Please, select a number between 8 and 128");
+    return
   } else {
-    alert("Please, select a number between 1 and 128");
-    getPasswordOptions();
+    alert("Please, select a number between 8 and 128");
+    return
   }
-  var uppercaseAnswer = confirm(questions.uppercase);
-  var numericAnswer = confirm(questions.numeric);
-  var specialAnswer = confirm(questions.special);
+  uppercaseInput = confirm(questions.uppercase);
+  numericInput = confirm(questions.numeric);
+  specialInput = confirm(questions.special);
 }
-
-getPasswordOptions();
 
 // Function for getting a random element from an array
 function getRandom(arr) {
 
+  if (lowercaseInput) {
+    for (let i = 0; i < charactersInput; i++) {
+      const randomIndex = Math.floor(Math.random() * arr.length);
+      const randomElement = arr[randomIndex];
+      userLowercaseArray.push(randomElement);
+      console.log(userLowercaseArray);
+    }
 }
+}
+
+// console.log(upperCasedCharacters.length);
+// console.log(lowerCasedCharacters.length);
+// console.log(specialCharacters.length);
+// console.log(numericCharacters.length);
 
 // Function to generate password with user input
 function generatePassword() {
@@ -141,6 +162,8 @@ function writePassword() {
   var passwordText = document.querySelector('#password');
 
   passwordText.value = password;
+  getPasswordOptions();
+  getRandom(lowerCasedCharacters);
 }
 
 // Add event listener to generate button
