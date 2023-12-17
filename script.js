@@ -100,7 +100,6 @@ var questions = {
 
 // Arrays
 
-var newArray = []
 var generatedPassword = []
 
 // User answers to password questions
@@ -113,16 +112,23 @@ var specialInput;
 
 // Function to prompt user for password options
 function getPasswordOptions() {
+
   charactersInput = prompt(questions.characters);
+
   if (charactersInput >= 8 && charactersInput < 128) {
     lowercaseInput = confirm(questions.lowercase);
     uppercaseInput = confirm(questions.uppercase);
     numericInput = confirm(questions.numeric);
     specialInput = confirm(questions.special);
+
+    if (!lowercaseInput && !uppercaseInput && !numericInput && !specialInput) {
+      alert("Please, select at least one of the options");
+    }
+
   } else if (!charactersInput) {
     return
   } else {
-    alert("Please, select a number between 8 and 128");
+    alert("Please, enter a number between 8 and 128");
     return
   }
 }
@@ -134,31 +140,39 @@ function getRandom(arr) {
 
 // Function to generate password with user input
 function generatePassword() {
-  newArray = []; // Reset newArray
   generatedPassword = []; // Reset generatedPassword
 
-  // Check each character type and add to newArray if selected
+  // Check each character type and add to generatedPassword if selected
   for (let i = 0; i < charactersInput; i++) {
+
     if (lowercaseInput) {
-      newArray.push(getRandom(lowerCasedCharacters));
+      generatedPassword.push(getRandom(lowerCasedCharacters));
     }
     if (uppercaseInput) {
-      newArray.push(getRandom(upperCasedCharacters));
+      generatedPassword.push(getRandom(upperCasedCharacters));
     }
     if (numericInput) {
-      newArray.push(getRandom(numericCharacters));
+      generatedPassword.push(getRandom(numericCharacters));
     }
     if (specialInput) {
-      newArray.push(getRandom(specialCharacters));
+      generatedPassword.push(getRandom(specialCharacters));
     }
   }
-  
-  for (let j = 0; j < charactersInput; j++) {
-    var randomCharacter = getRandom(newArray);
-    generatedPassword.push(randomCharacter);
+
+  generatedPassword.splice(charactersInput);
+
+  // Fisher-Yates shuffle function
+  function shuffleArray(generatedPassword) {
+    for (let i = generatedPassword.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      // Swap array[i] and array[j]
+      [generatedPassword[i], generatedPassword[j]] = [generatedPassword[j], generatedPassword[i]];
+    }
   }
 
+  shuffleArray(generatedPassword);
   return generatedPassword
+
 }
 
 // Write password to the #password input
