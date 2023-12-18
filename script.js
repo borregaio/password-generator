@@ -88,7 +88,7 @@ var upperCasedCharacters = [
   'Z'
 ];
 
-// Questions
+// Password Questions
 
 var questions = {
   characters: "How many characters should your password have?",
@@ -98,10 +98,6 @@ var questions = {
   special: "Would you like your password to have special characters?"
 }
 
-// Arrays
-
-var generatedPassword = []
-
 // User answers to password questions
 
 var charactersInput;
@@ -109,6 +105,11 @@ var lowercaseInput;
 var uppercaseInput;
 var numericInput;
 var specialInput;
+
+// Arrays
+
+var generatedPassword = []
+
 
 // Function to prompt user for password options
 function getPasswordOptions() {
@@ -140,7 +141,8 @@ function getRandom(arr) {
 
 // Function to generate password with user input
 function generatePassword() {
-  generatedPassword = []; // Reset generatedPassword
+  
+  generatedPassword = [];
 
   // Check each character type and add to generatedPassword if selected
   for (let i = 0; i < charactersInput; i++) {
