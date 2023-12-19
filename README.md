@@ -2,7 +2,7 @@
 
 ## Description 
 
-This repository contains a collection of code for performing various financial calculations using only JavaScript and the browser's console.
+The Password Generator is an application designed to create secure and customized passwords tailored to the specific user's preferences. With a simple click of a button, users can effortlessly generate a password with their desired length and character types.
 
 ![Screenshot](./password-generator.png)
 
@@ -14,15 +14,19 @@ The deployed version can be accessed [here](https://borregaio.github.io/password
 
 ## Key Features
 
-1. **Total Months:** Calculate the total number of months included in the dataset.
+1. **Password Criteria Prompts:** Present a series of prompts to the user for defining password criteria.
 
-2. **Net Total Profit/Loss:** Determine the net total amount of Profit/Losses over the entire period.
+2. **Password Length:** Allow the user to specify the length of the password. The password length should be at least 8 characters but no more than 128.
 
-3. **Average Change:** Find the average of the changes in Profit/Losses over the entire period.
+3. **Character Types:** Provide options for the user to choose from different character types. Include options for lowercase letters, uppercase letters, numeric characters, and special characters ($@%&*, etc.).
 
-4. **Greatest Increase:** Identify the date and amount of the greatest increase in Profit/Losses over the entire period.
+4. **Input Validation:** Validate user inputs to ensure they meet the specified criteria.
 
-5. **Greatest Decrease:** Identify the date and amount of the greatest decrease in Profit/Losses over the entire period.
+5. **Password Generation:** Generate a random password based on the selected criteria.
+
+6. **Shuffle Password**: Each time a password is generated, the order of characters is randomised, creating a truly random and unpredictable password.
+
+7. **Display Password:** Display the generated password.
 
 
 ## Installation
@@ -42,85 +46,152 @@ cd password-generator
 code .
 ```
 
-## Steps Followed to Calculate the Tasks
+## Steps Followed
 
-1. **Total Months:**
-    - The 'length' property is used to calculate how many months there are on the data set.
+1. **Password Criteria Prompts:**
+   - Present a series of prompts to the user for defining password criteria.
 
-        ```javascript
-        var totalMonths = finances.length;
-        ```
+      ```javascript
+      var questions = {
+      characters: "How many characters should your password have?",
+      lowercase: "Would you like your password to have lowercase characters?",
+      uppercase: "Would you like your password to have uppercase characters?",
+      numeric: "Would you like your password to have numeric characters?",
+      special: "Would you like your password to have special characters?"
+      }
+      ```
 
-2. **Net Total Profit/Loss:**
-    - A new variable is created (totalAmount), then a 'for loop' will go through each items's second value ([i][1]) and add it to the 'totalAmount' variable.
+2. **Password Length:**
+   - Allow the user to specify the length of the password. The password length should be at least 8 characters but no more than 128.
 
-        ```javascript
-        var totalAmount = 0;
+      ```javascript
+      function getPasswordOptions() {
 
-        for (let i = 0; i < finances.length; i++) {
-            totalAmount += finances[i][1];
-        }
-        ```
+         charactersInput = prompt(questions.characters);
+
+         if (charactersInput >= 8 && charactersInput <= 128) {
+
+      ```
+
+3. **Character Types:** 
+   - Provide options for the user to choose from different character types. Include options for lowercase letters, uppercase letters, numeric characters, and special characters ($@%&*, etc.).
+
+      ```javascript
+            lowercaseInput = confirm(questions.lowercase);
+            uppercaseInput = confirm(questions.uppercase);
+            numericInput = confirm(questions.numeric);
+            specialInput = confirm(questions.special);
+      ```
 
 
-3. **Average Change:**
-    - A new variable 'sumOfChanges' is created to store the sum of all numeric values.
+4. **Input Validation:**
+   - Validate user inputs to ensure they meet the specified criteria.
 
-        ```javascript
-        var sumOfChanges = 0;
-        ```
+      ```javascript
+            if (!lowercaseInput && !uppercaseInput && !numericInput && !specialInput) {
+               alert("Please, select at least one of the options");
+            }
 
-    - With a 'for loop', the change between the current financial value (currentFinancialValue) and the previous financial value (previousFinancialValue) is stored in the variable 'change'. Then, the value of 'change' is added up to the variable 'sumOfChanges'.
+         } else if (!charactersInput) {
+            return
+         } else {
+            alert("Please, enter a number between 8 and 128");
+            charactersInput = 0;
+            return
+         }
+      }
+      ```
 
-        ```javascript
-        for (let i = 1; i < finances.length; i++) {
-            var currentFinancialValue = finances[i][1];
-            var previousFinancialValue = finances[i - 1][1];
-            var change = currentFinancialValue - previousFinancialValue;
-        
-            sumOfChanges += change;
-        }
-        ```
+5. **Password Generation:**
+   - Generate a random password based on the selected criteria.
 
-    - The average change is calculated, using the 'toFixed()' method to round to two decimal places.
+      ```javascript
+      // Function for getting a random element from an array
+      function getRandom(arr) {
+         return arr[Math.floor(Math.random() * arr.length)];
+      }
 
-        ```javascript
-        var averageChanges = (sumOfChanges / (finances.length - 1)).toFixed(2);
-        ```
+      // Function to generate password with user input
+      function generatePassword() {
+      
+         generatedPassword = [];
 
-4. **Greatest Increase:**
-    - Two variables are created to store the greatest increase (greatestIncrease) and the gretest increase month (greatestIncreaseMonth).
+         // Check each character type and add to generatedPassword if selected
+         for (let i = 0; i < charactersInput; i++) {
 
-        ```javascript
-        var greatestIncrease = 0;
-        var greatestIncreaseMonth = '';
-        ```
+            if (lowercaseInput) {
+               generatedPassword.push(getRandom(lowerCasedCharacters));
+            }
+            if (uppercaseInput) {
+               generatedPassword.push(getRandom(upperCasedCharacters));
+            }
+            if (numericInput) {
+               generatedPassword.push(getRandom(numericCharacters));
+            }
+            if (specialInput) {
+               generatedPassword.push(getRandom(specialCharacters));
+            }
+         }
 
-    - A 'for loop' is used to store the current financial value (currentFinancialValue) and the previous financial value (previousFinancialValue) to the 'increase' variable.
+         // Shorten the password according to charctersInput value
+         generatedPassword.splice(charactersInput);
+      ```
 
-        ```javascript
-        for (let i = 1; i < finances.length; i++) {
-            var currentFinancialValue = finances[i][1];
-            var previousFinancialValue = finances[i - 1][1];
-            var increase = currentFinancialValue - previousFinancialValue;
-        ```
+6. **Shuffle Password**:
+   - Each time a password is generated, the order of characters is randomised, creating a truly random and unpredictable password.
 
-    - An 'if statement' is run to add the greatest increase to the 'greatestIncrease' varible with its respective month.
+      ```javascript
+       // Fisher-Yates shuffle function
+      function shuffleArray(generatedPassword) {
+         for (let i = generatedPassword.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            // Swap array[i] and array[j]
+            [generatedPassword[i], generatedPassword[j]] = [generatedPassword[j], generatedPassword[i]];
+         }
+      }
 
-        ```javascript
-        if (increase > greatestIncrease) {
-            greatestIncrease = increase;
-            greatestIncreaseMonth = finances[i][0];
-        }
-        }
-        ```
+      shuffleArray(generatedPassword);
+      return generatedPassword
 
-5. **Greatest Decrease:**
-    - The same process is followed to calculate the greatest decrease, with the only difference being a change in the order during the 'decrease' variable calculation.
+      }
+      ```
 
-        ```javascript
-        var decrease = previousFinancialValue - currentFinancialValue;
-        ```
+7. **Display Password:**
+   - Display the generated password.
 
-6. **Testing:**
+      ```javascript
+      // Write password to the #password input
+      function writePassword() {
+         getPasswordOptions();
+         var password = generatePassword();
+         var passwordText = document.querySelector('#password');
+
+         passwordText.value = password;
+
+      }
+
+      // Get references to the #generate element
+      var generateBtn = document.querySelector('#generate');
+
+      // Add event listener to generate button
+      generateBtn.addEventListener('click', writePassword);
+      ```
+
+8. **Testing:**
    - Verified that the website maintains its visual consistency after the refactoring.
+
+
+## Credits
+
+### Fisher-Yates Shuffle Algorithm
+
+The Fisher-Yates shuffle algorithm, used for randomising the order of elements in an array, is credited to Donald E. Knuth and Richard S. Durstenfeld. The algorithm is commonly known as the Knuth shuffle.
+
+- **Algorithm Authors:**
+  - Donald E. Knuth
+  - Richard S. Durstenfeld
+
+This project incorporates a modified version of the Fisher-Yates shuffle algorithm to provide randomisation in certain functionalities.
+
+The original algorithm is described in the book "The Art of Computer Programming" by Donald E. Knuth, Volume 2 (Seminumerical Algorithms).
+

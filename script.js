@@ -116,7 +116,7 @@ function getPasswordOptions() {
 
   charactersInput = prompt(questions.characters);
 
-  if (charactersInput >= 8 && charactersInput < 128) {
+  if (charactersInput >= 8 && charactersInput <= 128) {
     lowercaseInput = confirm(questions.lowercase);
     uppercaseInput = confirm(questions.uppercase);
     numericInput = confirm(questions.numeric);
@@ -130,6 +130,7 @@ function getPasswordOptions() {
     return
   } else {
     alert("Please, enter a number between 8 and 128");
+    charactersInput = 0;
     return
   }
 }
@@ -161,6 +162,7 @@ function generatePassword() {
     }
   }
 
+  // Shorten the password according to charctersInput value
   generatedPassword.splice(charactersInput);
 
   // Fisher-Yates shuffle function
