@@ -185,7 +185,7 @@ code .
 
 ### Fisher-Yates Shuffle Algorithm
 
-The Fisher-Yates shuffle algorithm, used for randomising the order of elements in an array, is credited to Donald E. Knuth and Richard S. Durstenfeld. The algorithm is commonly known as the Knuth shuffle.
+The Fisher-Yates shuffle algorithm, used for randomising the order of elements in an array, is credited to Donald E. Knuth and Richard S. Durstenfeld. The algorithm is commonly known as the Knuth shuffle. You can find this algorithm inside the generatePassword function.
 
 - **Algorithm Authors:**
   - Donald E. Knuth
